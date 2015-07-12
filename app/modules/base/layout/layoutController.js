@@ -23,14 +23,14 @@ module.exports = BaseView.extend({
 
 
   slideView: function(view) {
-    // console.log('BB.site',BB.site)
-    if (BB.site.get('currentPage')) {
-      BB.site.set({'newPage': view.model.get('page')});
-      BB.site.set({'oldPage': BB.site.get('currentPage')});
-      BB.site.set({'oldView': BB.site.get('currView')});
+    // console.log('App.site',App.site)
+    if (App.site.get('currentPage')) {
+      App.site.set({'newPage': view.model.get('page')});
+      App.site.set({'oldPage': App.site.get('currentPage')});
+      App.site.set({'oldView': App.site.get('currView')});
 
-      var incomingDirection = NavState.getSlideDir(BB.site.get('currentPage'),BB.site.get('newPage'));
-      $('.'+BB.site.get('newPage')+'_container').addClass(incomingDirection);
+      var incomingDirection = NavState.getSlideDir(App.site.get('currentPage'),App.site.get('newPage'));
+      $('.'+App.site.get('newPage')+'_container').addClass(incomingDirection);
 
       this.listenToOnce(Backbone.pubSub, 'animEnd', this.animEnd);
       // this.listenToOnce(Backbone.pubSub, 'viewRendered', this.animateView);
@@ -38,21 +38,21 @@ module.exports = BaseView.extend({
       // view.render();
 
     } else {
-      BB.site.set({'currentPage': view.model.get('page')});
-      $('.'+BB.site.get('currentPage')+'_container').addClass('show');
+      App.site.set({'currentPage': view.model.get('page')});
+      $('.'+App.site.get('currentPage')+'_container').addClass('show');
       // view.render();
 
     }
 
-    BB.site.set({'currView': view});
+    App.site.set({'currView': view});
 
   },
 
   animateView: function(payload) {
     var _this = this;
-    var animEl = $('.'+BB.site.get('newPage')+'_container');
+    var animEl = $('.'+App.site.get('newPage')+'_container');
     var transitionEvent = TransEnd.whichTransitionEvent();
-    // BB.site.set('isTransitioning', false);
+    // App.site.set('isTransitioning', false);
 
     animEl.one(transitionEvent, function(event) {
       // console.log('transition END')
@@ -61,17 +61,17 @@ module.exports = BaseView.extend({
 
     setTimeout(function(){
       animEl.addClass('show');
-      BB.site.set('isTransitioning', true);
-      // console.log('isTransitioning',BB.site.get('isTransitioning'))
+      App.site.set('isTransitioning', true);
+      // console.log('isTransitioning',App.site.get('isTransitioning'))
     }, 100);
 
-    BB.site.set({'currentPage': BB.site.get('newPage')})
+    App.site.set({'currentPage': App.site.get('newPage')})
   },
 
   animEnd: function(payload) {
-    BB.site.set('isTransitioning', false);
-    // console.log('isTransitioning',BB.site.get('isTransitioning'))
-    BB.site.get('oldView').dispose();
+    App.site.set('isTransitioning', false);
+    // console.log('isTransitioning',App.site.get('isTransitioning'))
+    App.site.get('oldView').dispose();
 
   }
 

@@ -20,7 +20,7 @@ module.exports = Backbone.View.extend({
   },
 
   debounce: function(e) {
-  	if (BB.site.get('isTransitioning') == true) {
+  	if (App.site.get('isTransitioning') == true) {
   		e.preventDefault();
   	}
   }
